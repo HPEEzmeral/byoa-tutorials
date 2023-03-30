@@ -51,8 +51,11 @@ ezua:
     endpoint: "test-app.hpe-dev-ezaf.com"
     istioGateway: "istio-system/ezaf-gateway"
 
-endpoint: test-app
-istioGateway: istio-system/istio-gateway
+  authorizationPolicy:
+    namespace: "istio-system"
+    providerName: "oauth2-proxy"
+    matchLabels:
+      istio: "ingressgateway"
 
 ingress:
   enabled: false

@@ -42,6 +42,9 @@ service:
   type: ClusterIP
   port: 80
 
+endpoint: test-app
+istioGateway: istio-system/istio-gateway
+
 ingress:
   enabled: false
   className: ""

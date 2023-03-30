@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "test-app.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "test-app.labels" . | nindent 4 }}
+spec:
+  gateways:
+    - {{ .Values.istioGateway }}
+  hosts:
+    - {{ .Values.endpoint }}
+  http:
+    - match:
+        - uri:
+            prefix: /
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: {{ include "test-app.fullname" . }}.{{ .Values.namespace }}.svc.cluster.local
+            port:
+              number: {{ .Values.service.port }}

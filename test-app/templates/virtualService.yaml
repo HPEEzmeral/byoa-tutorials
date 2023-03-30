@@ -7,9 +7,9 @@ metadata:
     {{- include "test-app.labels" . | nindent 4 }}
 spec:
   gateways:
-    - {{ .Values.istioGateway }}
+    - {{ .Values.ezua.virtualService.istioGateway }}
   hosts:
-    - {{ .Values.endpoint }}
+    - {{ .Values.ezua.virtualService.endpoint }}
   http:
     - match:
         - uri:

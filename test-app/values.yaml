@@ -42,6 +42,15 @@ service:
   type: ClusterIP
   port: 80
 
+#Platform related options
+ezua:
+  domainName: "hpe-dev-ezaf.com"
+  #Use next options in order to configure the application endpoint.
+  #Example of a VirtualService is here:
+  virtualService:
+    endpoint: "test-app.hpe-dev-ezaf.com"
+    istioGateway: "istio-system/ezaf-gateway"
+
 endpoint: test-app
 istioGateway: istio-system/istio-gateway
 

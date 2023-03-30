@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: image-pull-job-testapp-example
+  namespace: ezapp-system
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: chart
+          image: gcr.io/mapr-252711/ezua/apps/test-app:bundle
+          imagePullPolicy: Always
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: ezapp-hpe-imagepull-secrets

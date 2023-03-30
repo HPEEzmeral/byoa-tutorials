@@ -10,6 +10,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "test-app.fullname" . }}
+    namespace: {{ .Values.namespace }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

@@ -11,6 +11,9 @@ docker-build:
 docker-push:
 	docker push ${IMG}
 
+helm-package:
+	helm package ./test-app -d ./tarballs/
+
 clear:
 	kubectl delete -f job.yaml
 

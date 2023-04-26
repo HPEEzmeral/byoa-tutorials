@@ -3,6 +3,8 @@ kind: Job
 metadata:
   name: image-pull-job-testapp-example
   namespace: ezapp-system
+  labels:
+    hpe-ezaf/charts-upload-job: "true"
 spec:
   backoffLimit: 0
   template:

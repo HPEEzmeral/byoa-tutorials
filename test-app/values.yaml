@@ -4,8 +4,6 @@
 
 replicaCount: 1
 
-namespace: test-app
-
 image:
   repository: nginx
   pullPolicy: IfNotPresent
@@ -44,11 +42,11 @@ service:
 
 #Platform related options
 ezua:
-  domainName: "hpe-dev-ezaf.com"
+  domainName: "${DOMAIN_NAME}"
   #Use next options in order to configure the application endpoint.
   #Example of a VirtualService is here:
   virtualService:
-    endpoint: "test-app.hpe-dev-ezaf.com"
+    endpoint: "test-app.${DOMAIN_NAME}"
     istioGateway: "istio-system/ezaf-gateway"
 
   authorizationPolicy:

@@ -42,6 +42,11 @@ service:
 
 #Platform related options
 ezua:
+  oidc:
+    client_id: "${OIDC_CLIENT_ID}"
+    client_secret: "${OIDC_CLIENT_SECRET}"
+    domain: "${OIDC_DOMAIN}"
+    
   domainName: "${DOMAIN_NAME}"
   #Use next options in order to configure the application endpoint.
   #Example of a VirtualService is here:

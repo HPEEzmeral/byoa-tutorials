@@ -1,5 +1,5 @@
 IMAGE_BASE ?= gcr.io/mapr-252711/ezua/apps/test-app
-IMAGE_TAG ?= bundle
+IMAGE_TAG ?= bundle-v0.2.x
 
 IMG ?= $(IMAGE_BASE):$(IMAGE_TAG)
 

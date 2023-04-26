@@ -1,6 +1,6 @@
 # Test-app bundle example
 
-Example: image bundle contains `test-app` charts from `0.1.0` to `0.1.6` versions.
+Example: image bundle contains `test-app` charts from `0.2.x` versions.
 [gcr.io/mapr-252711/ezua/apps/test-app:bundle][gcr-test-app]
 
 ```Yaml
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: chart
-          image: gcr.io/mapr-252711/ezua/apps/test-app:bundle
+          image: gcr.io/mapr-252711/ezua/apps/test-app:bundle-v0.2.x
           imagePullPolicy: Always
       restartPolicy: Never
       imagePullSecrets:
@@ -29,13 +29,8 @@ Job will produce an output:
 > kubectl logs -n ezapp-system  -l job-name=image-pull-job-testapp-example
  
 NAME                               APP_VERSION         VERSION               STATUS
-test-app                                1.16.0           0.1.0        ALREADY EXIST
-test-app                                1.16.0           0.1.1        ALREADY EXIST
-test-app                                1.16.0           0.1.2        ALREADY EXIST
-test-app                                1.16.0           0.1.3        ALREADY EXIST
-test-app                                1.16.0           0.1.4        ALREADY EXIST
-test-app                                1.16.0           0.1.5        ALREADY EXIST
-test-app                                1.16.1           0.1.6               PUSHED
+test-app                                1.16.1           0.2.0        ALREADY EXIST
+test-app                                1.16.1           0.2.1               PUSHED
 ```
 
 

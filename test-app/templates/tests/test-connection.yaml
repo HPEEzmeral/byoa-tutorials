@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: {{ .Values.airgap.registry.url }}busybox:1.36
       command: ['wget']
       args: ['{{ include "test-app.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

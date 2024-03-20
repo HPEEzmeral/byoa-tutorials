@@ -12,7 +12,7 @@ image:
 
 airgap:
   registry:
-    url: ${AIRGAP_REGISTRY_URL}
+    url: ${AIRGAP_REGISTRY}
 
 imagePullSecrets: []
 nameOverride: ""

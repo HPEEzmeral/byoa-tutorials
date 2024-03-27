@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "add-vendor-app-labels-%s-%s" .Release.Name .Chart.Name }}
   annotations:
     "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": -5
+    "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   background: false

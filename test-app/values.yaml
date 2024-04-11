@@ -44,26 +44,6 @@ service:
   type: ClusterIP
   port: 8080
 
-#Platform related options
-ezua:
-  oidc:
-    client_id: "${OIDC_CLIENT_ID}"
-    client_secret: "${OIDC_CLIENT_SECRET}"
-    domain: "${OIDC_DOMAIN}"
-    
-  domainName: "${DOMAIN_NAME}"
-  #Use next options in order to configure the application endpoint.
-  #Example of a VirtualService is here:
-  virtualService:
-    endpoint: "test-app.${DOMAIN_NAME}"
-    istioGateway: "istio-system/ezaf-gateway"
-
-  authorizationPolicy:
-    namespace: "istio-system"
-    providerName: "oauth2-proxy"
-    matchLabels:
-      istio: "ingressgateway"
-
 ingress:
   enabled: false
   className: ""
@@ -100,3 +80,23 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+#Platform related options
+ezua:
+  oidc:
+    client_id: "${OIDC_CLIENT_ID}"
+    client_secret: "${OIDC_CLIENT_SECRET}"
+    domain: "${OIDC_DOMAIN}"
+    
+  domainName: "${DOMAIN_NAME}"
+  #Use next options in order to configure the application endpoint.
+  #Example of a VirtualService is here:
+  virtualService:
+    endpoint: "test-app.${DOMAIN_NAME}"
+    istioGateway: "istio-system/ezaf-gateway"
+
+  authorizationPolicy:
+    namespace: "istio-system"
+    providerName: "oauth2-proxy"
+    matchLabels:
+      istio: "ingressgateway"

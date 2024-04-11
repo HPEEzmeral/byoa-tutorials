@@ -1,0 +1,25 @@
+apiVersion: ezconfig.hpe.ezaf.com/v1alpha1
+kind: EzAppConfig
+metadata:
+  name: ezappconfig-test-app
+  labels:
+    hpe-ezua/imported-app: "true"
+spec:
+  name: test-app
+  releaseName: test-app
+  chartVersion: 0.2.5
+  version: 1.25.3
+  description: Test app description
+  label: Test App
+  logoImage: ""
+  category: dataScience
+  # backoffLimit: 2  ## added in EZUA v1.4.0 
+  # retry: true  ## added in EZUA v1.4.0 
+  options:
+    namespace: test-app-ns
+    create-namespace: "true"
+    wait: "true"
+    timeout: 15m
+    debug: "true"
+  
+  values: ""

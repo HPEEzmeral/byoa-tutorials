@@ -6,13 +6,14 @@ IMG ?= $(IMAGE_BASE):$(IMAGE_TAG)
 all: docker-build docker-push
 
 docker-build:
-	docker build -t ${IMG} .
+	cd ../; \
+	docker build -f upload-bundle-job/Dockerfile --build-arg TARBALL_DIR=tarballs -t ${IMG} .
 
 docker-push:
 	docker push ${IMG}
 
 helm-package:
-	helm package ./test-app -d ./tarballs/
+	helm package ../test-app -d ../tarballs/
 
 clear:
 	kubectl delete -f job.yaml

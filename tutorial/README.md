@@ -34,9 +34,22 @@ cd ezua-ezapp-demo-example
 For this demo example was used generated helm chart [test-app](../test-app/README.md) via command `helm create test-app`.
 All other steps are appliable for any kind of helm chart. For simplification we will use new demo helm chart `demo-app`.
 
-To create new demo chart use next command.
+To create new demo chart use next command:
 ```bash
 helm create demo-app
+```
+The expected output should be:
+```bash
+Creating demo-app
+```
+List `demo-app` directory to ensure it was created. Expected directory structure should be like this:
+```
+demo-app/
+├── charts/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    └── tests/
 ```
 
 ## Make app helm chart to be compatible with EZUA BYOApp
@@ -48,17 +61,16 @@ Create a directory `ezua` in the helm chart templates:
 mkdir -p demo-app/templates/ezua
 ```
 
-Create an empty `ezua` section in the helm chart [values.yaml](../test-app/values.yaml#L85) file:
+Create an empty `ezua` section in the helm chart values.yaml file:
 
 [!NOTE] You can use preferable IDE to perform this action.
 
-Insert next lines to the helm chart values.yaml:
+Insert next lines to the `demo-app/values.yaml` file. You can reffer on the [`test-app/values.yaml`](../test-app/values.yaml#L85) example:
 ```
 #Platform related options
 ezua:
 ```
 We will extend `ezua` values later in this tutorial.
-
 
 ### Configure application Endpoint/VirtualService
 

@@ -38,7 +38,7 @@ API folder contains the scripts and configuration files related to the EzAppConf
 1. Clone the repository:
 
 ```bash
-git clone git@github.com:HPEEzmeral/ezua-ezapp-demo-example.git
+git clone git@github.com:HPEEzmeral/byoa-tutorials.git
 ```
 
 2. Ensure that the required tools are installed by running the following commands:

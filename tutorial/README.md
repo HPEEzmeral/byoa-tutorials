@@ -25,8 +25,8 @@ This tutorial explain step by step how to prepare and make application helm char
 ### Clone the repository, and cd into root directory.
 
 ```bash
-git clone git@github.com:HPEEzmeral/ezua-ezapp-demo-example.git
-cd ezua-ezapp-demo-example
+git clone git@github.com:HPEEzmeral/byoa-tutorials.git
+cd byoa-tutorials
 ```
 
 ### Get helm chart for application

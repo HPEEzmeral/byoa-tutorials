@@ -174,16 +174,67 @@ kubectl get secret admin-pass -n keycloak -o jsonpath='{.data.password}' | base6
 
 Now the Application endpoint URL will redirect to athorization page if you was not athorized yet in EZUA.
 
-### How to configure billing
+### Configuring hpe-ezua labels
 
-This step is required to configure Billing for the application. #TODO add url to Billing wiki
+This guide explains how to integrate the `_hpe-ezua.tpl` file into your Helm chart and ensure the `hpe-ezua.labels` template is properly applied to your workloads. Following these steps is required for features `Resource Management monitoring` and `Pod health monitoring`.
 
-Copy [example template authpolicy](../ezua/kyverno-cluster-policy.yaml) to the helm chart:
-```bash
-cp ezua/kyverno-cluster-policy.yaml demo-app/templates/ezua/
+Our Helm chart includes a special template file [_hpe-ezua.tpl](../test-app/templates/_hpe-ezua.tpl), which defines hpe-ezua labels. These labels are required for two key features in our system:
+
+1. **Resource Management monitoring**: feature collects info about resources usage from running pods labeled with `hpe-ezua/type: vendor-service`. And aggregates data under Tools&Frameworks.
+   
+2. **Pod Health monitoring**: deployed Tools&Frameworks monitors health status for deployed pods. This feature relies on the `hpe-ezua/app: <name>` label to gather thedata.
+
+Include the `_hpe-ezua.tpl` file in your Helm chart and apply the `hpe-ezua.labels` template to your Workload resources, such as Deployment, StatefulSet, and Pods.
+
+#### Steps to Integrate
+
+##### 1. Add `_hpe-ezua.tpl` to Your helm chart templates
+
+Ensure the following template file is included in your Helm chart:
+
+```yaml
+{{/*
+HPE EZUA labels
+*/}}
+{{- define "hpe-ezua.labels" -}}
+hpe-ezua/app: {{ .Release.Name }}
+hpe-ezua/type: vendor-service
+{{- end }}
+```
+Place this file under the templates/ directory in your Helm chart, naming it `_hpe-ezua.tpl`.
+
+##### 2. Use `hpe-ezua.labels` in Your helm chart workloads
+To ensure that your workloads (e.g., Deployments, StatefulSets, Pods) are properly labeled, include the following in the `metadata.labels` section of pod manifests or `spec.template.metadata.labels` for Deployments, StatefulSets, Jobs etc.
+
+example for pods:
+
+```yaml
+metadata:
+  labels:
+    {{- include "hpe-ezua.labels" . | nindent 4 }}
 ```
 
-This ClusterPolicy assign `hpe-ezua/type: vendor-service` label for every workload resource of the Application
+esample for deployments:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  labels:
+    {{- include "hpe-ezua.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "hpe-ezua.labels" . | nindent 8 }}
+    spec:
+    ...
+```
+
+Or you can include `hpe-ezua.labels` template to Your app `Selector labels` tpl like there [_helpres.tpl](../test-app/templates/_helpers.tpl#L49)
+
+By following these steps, you ensure that the necessary labels are applied to your workloads, enabling both `Resource management` and `Health` monitoring features. Failure to apply these labels may result in missing resource metrics and health data for your application.
 
 ### How to add Airgap registry support
 

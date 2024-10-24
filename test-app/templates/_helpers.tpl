@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "test-app.selectorLabels" -}}
+{{ include "hpe-ezua.labels" . }}
 app.kubernetes.io/name: {{ include "test-app.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

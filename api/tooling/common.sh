@@ -18,11 +18,13 @@ function isConnectedEnv() {
 
 function wait_ezapp_status() {
     #ezappconfig Status.Status terminal state enum
-    local terminal_states="ready error warning"
+    local terminal_states="ready error warning initialized"
     local ezapp_name=$1
     local timeout=$2
     local start_ts=$(date +%s)
     echo "ezappconfig name: $ezapp_name"
+    local install="$(kubectl get ezappconfig $ezapp_name -o jsonpath={.spec.install} 2> /dev/null)"
+    echo "ezappconfig install flag: $install"
     echo "Wait until the status get into [$terminal_states]"
     while true; do
         local now_ts=$(date +%s)
@@ -39,7 +41,11 @@ function wait_ezapp_status() {
         printf "Status: %-12s RetryCnt: %-2s Time: %-20s" "$state" "$retryCnt" "$formated_elapsed_time"
         if [[ $terminal_states =~ (^|[[:space:]])$state($|[[:space:]]) ]]; then
             if [[ $state == "ready" ]] ||
-                [ "$retryCnt" -gt "$backoffLimit" ]; then
+                [[ $retryCnt -gt $backoffLimit ]]; then
+                echo
+                echo "Condition met"
+                break;
+            elif [[ $state == "initialized" ]] && [[ "false" == "$install" ]]; then
                 echo
                 echo "Condition met"
                 break;
@@ -53,8 +59,11 @@ function wait_ezapp_status() {
         sleep 10
         printf $'\r'
     done
-    if [[ "ready" == "$(kubectl get ezappconfig $ezapp_name -o jsonpath={.status.status})" ]]; then
+    local state="$(kubectl get ezappconfig $ezapp_name -o jsonpath={.status.status} 2> /dev/null)"
+    if [[ "ready" == $state ]]; then
         echo "app $ezapp_name is in ready state"
+    elif [[ "initialized" == $state ]] && [[ "false" == "$install" ]]; then
+        echo "app $ezapp_name is created with flag install set to 'false'"
     else
         echo "ERROR: app $ezapp_name is in failed state"
         local err_msg=$(kubectl get ezappconfig $ezapp_name -o jsonpath={.status.failureReason})

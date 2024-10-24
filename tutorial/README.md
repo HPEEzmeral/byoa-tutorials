@@ -89,8 +89,9 @@ ezua:
 ```
 
 The above values would be used to configure virtualService in next step:
-[!NOTE] you can use a `${DOMAIN_NAME}` palce holder in values.yaml file, it would be substituted during deploy. Whole list of available placeholders is [here](../api/templates/README.md)
-#TODO describe list of available placeholders
+
+**_NOTE_** you can use a `${DOMAIN_NAME}` palce holder in values.yaml file. The full list of available placeholders is [here](./README.md#list-of-placeholders-supported-in-ezappconfigspecvalues)
+
 
 ### 2. Configure Application istio [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/)
 
@@ -315,9 +316,48 @@ After deploy the above configuration, Application tile will look like on the pic
 ![](demo_app_tile.png)
 
 
-[!NOTE] About release name limitation you can read [here](https://helm.sh/docs/chart_template_guide/getting_started/#adding-a-simple-template-call)
+**_NOTE:_** About release name limitation you can read [here](https://helm.sh/docs/chart_template_guide/getting_started/#adding-a-simple-template-call)
 
-[!NOTE] About logoImage. How to put your custom logo image read [here](../api/README.md#configuration) `EZAPP_LOGO_PATH`
+**_NOTE:_** About logoImage. How to put your custom logo image read [here](../api/README.md#configuration) `EZAPP_LOGO_PATH`
+
+## List of Placeholders supported in EzAppConfig.Spec.Values
+
+This document provides a list of special placeholders that can be used in the `values.yaml` file of your Helm chart. These placeholders help configure the application. Below is a list of each placeholder and its description.
+
+| **Placeholder Key**   | **Description**                                                                                                                                          |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DOMAIN_NAME`         | The fully qualified domain name of EZUA cluster. |
+| `AIRGAP_REGISTRY`     | The URL of the private, air-gapped container registry used for pulling images. |
+| `OIDC_CLIENT_ID`      | The client ID for embedded OIDC client authentication. |
+| `OIDC_CLIENT_SECRET`  | The secret associated with the OIDC client ID. |
+| `OIDC_DOMAIN`         | The domain name of the OIDC provider |
+| `NAMESPACE`           | The k8s namespace where the application Helm release will be deployed. |
+| `RELEASE_NAME`        | The name of the current Helm release. |
+| `CHART_VERSION`       | The version of the Helm chart being used for deployment. |
+
+### Usage
+
+To use these placeholders in your `EzAppConfig.Spec.Values`, reference them using a bash-like syntax as follows:
+
+```yaml
+#Platform related options
+ezua:
+  oidc:
+    client_id: "${OIDC_CLIENT_ID}"
+    client_secret: "${OIDC_CLIENT_SECRET}"
+    domain: "${OIDC_DOMAIN}"
+
+  domainName: "${DOMAIN_NAME}"
+  #Use next options in order to configure the application endpoint.
+  #Example of a VirtualService is here:
+  virtualService:
+    endpoint: "${RELEASE_NAME}-${NAMESPACE}.${DOMAIN_NAME}"
+    istioGateway: "istio-system/ezaf-gateway"
+```
+Feel free to use it in other places in `EzAppConfig.Spec.Values`
+This syntax ensures that the placeholders are dynamically processed during the application setup, allowing you to easily customize your configuration without manually replacing values.
+
+**_NOTE:_** **_Important:_** Dynamically substitution will be performed during LCM action, only if you specify then in `EzAppConfig.Spec.Values` section. If helm chart values.yaml contains a placeholder, but it was not specified in `EzAppConfig.Spec.Values`, substitution will not be performed.
 
 ## Deploy EzAppConfig CR
 

@@ -266,7 +266,8 @@ spec:
   releaseName: demo-app
   # Optional. If the `install` flag is set to `false`, application tile will be added to the UI,
   # but aplication resources wouldn't be deployed at the same time. You can deploy it later from UI Settings page.
-  install: "true"
+  # Defaults to `true`
+  install: true
   # Specify chart version here
   # Important! should be equal to the chart version. Look at Chart.yaml. or run command `yq .version demo-app/Chart.yaml`
   chartVersion: 0.1.0
@@ -284,12 +285,18 @@ spec:
   # Required. Used to select in which group the App tile will be displayed in the "Tools & Frameworks" on the UI.
   # allowed values [ dataEngineering, dataScience, analytics ]
   category: dataScience
-  # backoffLimit: 2  ## added in EZUA v1.4.0
-  # retry: true  ## added in EZUA v1.4.0
+  # Optional. Specifies the number of retries before marking the App LCM action failed.
+  # Defaults to 3
+  backoffLimit: 2
+  # Optional. If the BackoffLimit is reached, tugle this flag to `true` to repeat latest LCM action.
+  # It will reset retries counter.
+  # Defaults to `false`
+  retry: false
   options:
     # Namespace where application would be deployed
     namespace: demo-app-ns
     # If the `create-namespace` flag is set to true. Then App will create namespace if it is not exist.
+    # If `namespace` is not exist, this flag is required.
     create-namespace: "true"
     # If the `wait` flag is set to true. EzApp controller will wait until the application workload reaches a ready state.
     # Otherwise, the controller will deploy the application and mark it as ready. But this does not guarantee that the application is truly ready.

@@ -133,7 +133,7 @@ ezua:
   #Use next options in order to configure the application endpoint.
   #Example of a VirtualService is here:
   virtualService:
-    endpoint: "test-app.${DOMAIN_NAME}"
+    endpoint: "${RELEASE_NAME}-${NAMESPACE}.${DOMAIN_NAME}"
     istioGateway: "istio-system/ezaf-gateway"
 
   authorizationPolicy:

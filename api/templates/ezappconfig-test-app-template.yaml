@@ -16,8 +16,7 @@ spec:
   name: test-app
   install: false
   releaseName: test-app
-  chartVersion: 0.2.5
-  version: 1.25.3
+  chartVersion: 0.2.6
   description: Test app description
   label: Test App
   logoImage: ""

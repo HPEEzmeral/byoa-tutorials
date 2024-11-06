@@ -32,7 +32,7 @@ configure() {
 
     # <APP-UNIQ> Application specific values.yaml configuration for chart [start]
     export AIRGAP_REGISTRY="\${AIRGAP_REGISTRY}"
-    export ENDPOINT="test-app.\${DOMAIN_NAME}"
+    export ENDPOINT="\${RELEASE_NAME}-\${NAMESPACE}.\${DOMAIN_NAME}"
 
     yq '.ezua.virtualService.endpoint = strenv(ENDPOINT) |
         .airgap.registry.url = strenv(AIRGAP_REGISTRY) |
